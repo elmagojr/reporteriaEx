@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Gráfico de Barras</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
+
+    <link href="../js/boostrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../js/boostrap/docs.css" rel="stylesheet">
+    <script src="../js/boostrap/bootstrap.bundle.min.js"></script>
+    <script src="../js/chart.js"></script>
+
+    <script src="../js/topdf/html2pdf.bundle.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/pdfmake.min.js"
+        integrity="sha512-w61kvDEdEhJPJLSAJpuL+RWp1+zTBUUpgPaP+6pcqCk78wQkOaExjnGWrVbovojeisWGQS7XZKz+gr3L+GPYLg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.10/vfs_fonts.js"
+        integrity="sha512-nNkHPz+lD0Wf0eFGO0ZDxr+lWiFalFutgVeGkPdVgrG4eXDYUnhfEj9Zmg1QkrJFLC0tGs8ZExyU/1mjs4j93w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+    <style>
+        body {
+
+            padding: 16px;
+        }
+
+        canvas {
+            border: 1px dotted red;
+        }
+
+        .encabezado {
+            text-align: center;
+            position: relative;
+            margin: auto;
+            height: auto;
+            width: 80vw;
+        }
+
+        .titulos {
+            text-align: center;
+
+        }
+
+        .contenidoChart {
+            position: relative;
+            margin: auto;
+            height: 80vh;
+            width: 80vw;
+        }
+
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 80vh;
+            width: 80vw;
+        }
+
+        /* .verbor { border: 1px dotted rgb(204, 14, 153);}*/
+    </style>
+
+
+</head>
+
+<body>
+
+
+    <div class="container encabezado py-4 verbor">
+        <div class="row ">
+            <div class="col-2 verbor">
+                <picture>
+               <!--     <img src="../src/images/logo1.png" class="img-fluid py-3" alt="image desc" />-->
+                </picture>
+
+            </div>
+            <div class="col-9 verbor">
+                <div class=" titulos py-4 verbor">
+                    <h3 id="titulo1"></h3>
+                    <h4 id="titulo2"></h4>
+                    <h4 id="titulo3"></h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../js/data.js"></script>
+
+    <div class="verbor contenidoChart " style="">
+        <div class="chart-container d-flex justify-content-center align-items-center">
+            <canvas id="myChart"></canvas>
+        </div>
+
+    </div>
+
+
+
+
+    <script src="../js/config.js"></script>
+    <script>
+        pdfMake.createPdf(docDefinition).download();
+
+    </script>
+
+    <button id="btnGenerarPDF">Generar PDF</button>
+    <script src="../js/topdf/PDF.js"></script>
+
+    <script>
+        document.getElementById('btnGenerarPDF').addEventListener('click', function () {
+            // Definir el contenido del PDF
+            console.log(dd);
+            var docDefinition = {
+                content: [
+                    '¡Hola, este es un PDF generado con pdfmake!'
+                ]
+            };
+
+            // Generar el PDF
+            pdfMake.createPdf(dd).open();
+        });
+    </script>
+ <button id="btnCrearPdf">Click aquí</button>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Escuchamos el click del botón
+            const $boton = document.querySelector("#btnCrearPdf");
+            $boton.addEventListener("click", () => {
+ 
+                const $elementoParaConvertir = document.body;
+                html2pdf()
+                    .set({
+                        margin: 1,
+                        filename: 'gatooo.pdf',
+                        image: {
+                            type: 'jpeg',
+                            quality: 0.98
+
+                        },
+                        html2canvas: {
+                            scale: 3, // A mayor escala, mejores gráficos, pero más peso
+                            letterRendering: false,
+                            width:1000,
+                            height:1000,
+                            allowTaint: true
+
+                        },
+                        jsPDF: {
+                            precision:16,
+                            unit: "in",
+                            format: "letter",
+                            orientation: 'portrait' // landscape o portrait
+
+                        }
+                    })
+                    .from($elementoParaConvertir)
+                    .save()
+                    .catch(err => console.log(err));
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>

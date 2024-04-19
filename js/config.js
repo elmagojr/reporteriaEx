@@ -1,6 +1,5 @@
 //COLORES DE LOS DATOS DE LA GRAFICA
-var colores = [
-    'rgba(237, 157, 203, 0.5)',
+var colores = [    
     'rgba(49, 135, 45, 0.5)',
     'rgba(40, 203, 253, 0.5)',
     'rgba(204, 132, 231, 0.5)',
@@ -37,64 +36,113 @@ var colores = [
     'rgba(153, 102, 255, 0.5)'
 ];
 
-document.addEventListener("DOMContentLoaded", function () {
-    var datosList = document.getElementById('datos');
-    dataSisc.forEach(function (item) {
-        var li = document.createElement('li');
-        li.textContent = 'Nombre: ' + item.nombre + ', Cantidad: ' + item.cantidad + ', Valor: ' + item.valor;
-        datosList.appendChild(li);
-    });
-});
+//HAY QUE PASARLO DESDE EL SISC
 
-
+var dataGeneral = [{ "titulo1": "COOPERATIVA TAL  LCD HDMI .CV Y TAL", "titulo2": "LA CIUDAD, DEPARTAMENT, 2024", "titulo3": "la otra cosa que no recuerdo que es", "tituloGrafico": "GRÁFICO COLOCACIÓN DE CREDITO GENERAL" }];
+var dataFiltros =[{"filtro":"filtro1"},{"filtro":"filtro2"},{"filtro":"filtro3"}]
+var setsDataEncabezados =[{"NombreEncabezado":"Valor de Capital"},{"NombreEncabezado":"Cantidad"}];
 //CONTRUCCION DE GRAFICO
-var dataGeneral =[{"titulo1":"COOPERATIVA TAL  LCD HDMI .CV Y TAL","titulo2":"LA CIUDAD, DEPARTAMENT, 2024","titulo3":"la otra cosa que no recuerdo que es","tituloGrafico":"GRÁFICO COLOCACIÓN DE CREDITO GENERAL"}];
+
 var titulos = [];
 var cantidades = [];
 var valores = [];
+var ColumsSets = [];
 
 document.getElementById("titulo1").textContent = dataGeneral[0].titulo1;
 document.getElementById("titulo2").textContent = dataGeneral[0].titulo2;
 document.getElementById("titulo3").textContent = dataGeneral[0].titulo3;
+document.getElementById("tituloGrfico").textContent = dataGeneral[0].tituloGrafico
 
 dataSisc.forEach(function (item) {
     titulos.push(item.nombre);
     cantidades.push(item.cantidad);
     valores.push(item.valor);
 });
+setsDataEncabezados.forEach(function (item) {
+    ColumsSets.push(item.NombreEncabezado);   
+});
+dataFiltros.forEach(function (filtro) {
+    var nuevoli= document.createElement("li");
+    nuevoli.className ="list-group-item d-flex justify-content-between align-items-center";
+    nuevoli.textContent = filtro.filtro;
+    document.getElementById("lis_filtro").appendChild(nuevoli);
+
+});
+
+var arreglosSeparados = {};
+
+// Recorrer cada objeto
+dataSisc.forEach(function (objeto) {
+    
+
+    // Recorrer cada propiedad del objeto
+    Object.keys(objeto).forEach(function (propiedad) {
+
+        // Si no existe un arreglo para esta propiedad, crearlo
+        if (!arreglosSeparados[propiedad]) {
+            arreglosSeparados[propiedad] = [];
+        }
+        // Agregar el valor de la propiedad al arreglo correspondiente
+        arreglosSeparados[propiedad].push(objeto[propiedad]);
+    });
+});
+
+
 
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: titulos,
-        datasets: [{
-            label: 'Valor de Capital',
-            data: valores,
-            backgroundColor: colores,
-            borderColor: colores,
-            borderWidth: 1
-        },
-        {
-            label: 'Cantidad',
-            data: cantidades,
-            backgroundColor: colores,
-            borderColor: colores,
-            borderWidth: 1
-        }
-        ]
+        labels: arreglosSeparados.nombre,
+        datasets: []
     },
     options: {
         responsive: true,
         plugins: {
             legend: {
+                labels: {
+                    color: 'red',
+                    
+                  },
                 position: 'top',
+                
             },
             title: {
                 display: true,
                 text: dataGeneral[0].tituloGrafico
             }
         }
-
     }
-}); 
+});
+
+
+var coloresBarras = ['red', 'blue', 'green', 'yellow'];
+
+Object.keys(arreglosSeparados).forEach(propiedadArray=>{
+  
+
+    if (propiedadArray !== 'nombre') {
+         
+        myChart.data.datasets.push({
+            label: propiedadArray,
+            data: arreglosSeparados[propiedadArray],
+            backgroundColor: colores,
+            borderColor: colores,
+            borderWidth: 1
+        });   
+    } 
+    
+})
+
+ myChart.update(); 
+
+
+
+
+
+
+
+
+
+
+
