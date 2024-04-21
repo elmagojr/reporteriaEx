@@ -102,11 +102,53 @@
 
     <script src="../js/data.js"></script>
 
-    <div class="verbor chart-container pb-4 d-flex justify-content-center">
+    <div id="contenedor_delChart" class="verbor chart-container pb-4 d-flex justify-content-center">
         <canvas id="myChart"></canvas>
+    </div>
+    <div class="container">
+
     </div>
 
     <div class="footer">
+        <div class="row py-2">
+            <div class="col-auto">
+                <button class="btn btn-outline-secondary" id="btnGenerarPDF">Generar PDF</button>
+            </div>
+            <div class="col-3">
+                <select id="tipoGrafico" class="form-select btn-outline-secondary" aria-label="Default select example">
+                    <option value="">Seleccione un Tipo</option>
+                    <option value="bar">Graf. Barras</option>
+                    <option value="pie">Graf. Pastel</option>
+                    <option value="line">Graf. Lineas</option>
+                    <option value="doughnut">Graf. Dona</option>
+                    <option value="radar">Graf. Radar</option>
+
+                </select>
+
+            </div>
+            
+            
+            <div class="col-3">
+                <div id ="Seleccion_DeDatas" class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Seleccionar Dataset
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdownMenu">
+         
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="container mt-5">
+              
+            </div>
+        
+
+
+        </div>
+
         <ul id="lis_filtro" class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center ">
                 <b>Lista Filtros </b>
@@ -121,8 +163,9 @@
     <script src="../js/config.js"></script>
 
 
-    <button id="btnGenerarPDF">Generar PDF</button>
-    <button id="serializatiion">Separo arreglos</button>
+    <div class="footer">
+
+    </div>
 
 
     <script src="../js/topdf/conversores.js"></script>
@@ -131,7 +174,6 @@
 
     </script>
     <script>
-
         document.getElementById('btnGenerarPDF').addEventListener('click', function () {
             var elemento = document.getElementById('myChart');
             var imagenlog = document.getElementById('imagenLogo');

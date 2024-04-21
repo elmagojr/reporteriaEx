@@ -1,5 +1,5 @@
 //COLORES DE LOS DATOS DE LA GRAFICA
-var colores = [    
+var colores = [
     'rgba(49, 135, 45, 0.5)',
     'rgba(40, 203, 253, 0.5)',
     'rgba(204, 132, 231, 0.5)',
@@ -39,8 +39,8 @@ var colores = [
 //HAY QUE PASARLO DESDE EL SISC
 
 var dataGeneral = [{ "titulo1": "COOPERATIVA TAL  LCD HDMI .CV Y TAL", "titulo2": "LA CIUDAD, DEPARTAMENT, 2024", "titulo3": "la otra cosa que no recuerdo que es", "tituloGrafico": "GRÁFICO COLOCACIÓN DE CREDITO GENERAL" }];
-var dataFiltros =[{"filtro":"filtro1"},{"filtro":"filtro2"},{"filtro":"filtro3"}]
-var setsDataEncabezados =[{"NombreEncabezado":"Valor de Capital"},{"NombreEncabezado":"Cantidad"}];
+var dataFiltros = [{ "filtro": "filtro1" }, { "filtro": "filtro2" }, { "filtro": "filtro3" }]
+var setsDataEncabezados = [{ "NombreEncabezado": "Valor de Capital" }, { "NombreEncabezado": "Cantidad" }];
 //CONTRUCCION DE GRAFICO
 
 var titulos = [];
@@ -59,21 +59,24 @@ dataSisc.forEach(function (item) {
     valores.push(item.valor);
 });
 setsDataEncabezados.forEach(function (item) {
-    ColumsSets.push(item.NombreEncabezado);   
+    ColumsSets.push(item.NombreEncabezado);
 });
+
 dataFiltros.forEach(function (filtro) {
-    var nuevoli= document.createElement("li");
-    nuevoli.className ="list-group-item d-flex justify-content-between align-items-center";
+    var nuevoli = document.createElement("li");
+    nuevoli.className = "list-group-item d-flex justify-content-between align-items-center";
     nuevoli.textContent = filtro.filtro;
     document.getElementById("lis_filtro").appendChild(nuevoli);
 
 });
 
+
+
 var arreglosSeparados = {};
 
 // Recorrer cada objeto
 dataSisc.forEach(function (objeto) {
-    
+
 
     // Recorrer cada propiedad del objeto
     Object.keys(objeto).forEach(function (propiedad) {
@@ -86,7 +89,25 @@ dataSisc.forEach(function (objeto) {
         arreglosSeparados[propiedad].push(objeto[propiedad]);
     });
 });
+var selectTipoGrafico = document.getElementById('tipoGrafico'); //aqui esta los tipos de graficos ()
 
+selectTipoGrafico.addEventListener('change', function () {
+  
+
+
+
+
+    var tipoGrafico = selectTipoGrafico.value;
+    if (tipoGrafico === 'bar' || tipoGrafico === 'line' || tipoGrafico === 'radar')  {
+        document.getElementById('Seleccion_DeDatas').style.display = 'none';
+    } else {
+        document.getElementById('Seleccion_DeDatas').style.display = 'block';
+    }
+ 
+    myChart.config.type = tipoGrafico;
+    myChart.update();
+
+});
 
 
 var ctx = document.getElementById('myChart').getContext('2d');
@@ -101,40 +122,94 @@ var myChart = new Chart(ctx, {
         plugins: {
             legend: {
                 labels: {
-                    color: 'red',
-                    
-                  },
+
+                },
+
                 position: 'top',
-                
+
             },
             title: {
                 display: true,
                 text: dataGeneral[0].tituloGrafico
             }
-        }
+        },
+        scales: {
+            y: {
+             // stacked: true
+            }
+          }
     }
 });
 
 
-var coloresBarras = ['red', 'blue', 'green', 'yellow'];
+var dataset_elimina = [];
 
-Object.keys(arreglosSeparados).forEach(propiedadArray=>{
-  
+Object.keys(arreglosSeparados).forEach(propiedadArray => {
+
 
     if (propiedadArray !== 'nombre') {
-         
+        dataset_elimina.push(propiedadArray);
+
         myChart.data.datasets.push({
             label: propiedadArray,
             data: arreglosSeparados[propiedadArray],
             backgroundColor: colores,
             borderColor: colores,
-            borderWidth: 1
-        });   
-    } 
-    
+            borderWidth: 5,
+            
+        });
+    }
+
 })
 
- myChart.update(); 
+
+
+console.log(dataset_elimina);
+
+
+
+
+
+
+
+
+
+var dropdownMenu = document.getElementById('dropdownMenu');
+dataset_elimina.forEach(function(dataset) {
+ 
+    var listItem = document.createElement('li');
+    var link = document.createElement('a');
+    link.classList.add('dropdown-item');
+    link.href = '#';
+
+ 
+        link.textContent = dataset  + ' ✔️';;
+    
+
+   
+
+    link.addEventListener('click', function() {
+        event.preventDefault();
+        toggleDataset(dataset,link);
+    });
+    listItem.appendChild(link);
+    dropdownMenu.appendChild(listItem);
+});
+
+function toggleDataset(label, link) {
+    var datasetIndex = myChart.data.datasets.findIndex(dataset => dataset.label === label);
+    if (datasetIndex !== -1) {
+        myChart.data.datasets[datasetIndex].hidden = !myChart.data.datasets[datasetIndex].hidden;
+        myChart.update();
+    }
+    if (!myChart.data.datasets[datasetIndex].hidden) {
+        link.textContent = label + ' ✔️';
+    } else {
+        link.textContent = label + ' ✖️';
+    }
+
+}
+myChart.update();
 
 
 
