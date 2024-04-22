@@ -89,8 +89,8 @@
             <div class="col-9 py-4 verbor">
                 <div class=" titulos py-4 verbor">
                     <h3 id="titulo1"></h3>
-                    <h4 id="titulo2"></h4>
-                    <h4 id="titulo3"></h4>
+                    <h5 id="titulo2"></h5>
+                    <h5 id="titulo3"></h5>
                 </div>
             </div>
         </div>
@@ -116,7 +116,7 @@
             </div>
             <div class="col-3">
                 <select id="tipoGrafico" class="form-select btn-outline-secondary" aria-label="Default select example">
-                    <option value="">Seleccione un Tipo</option>
+                    <option value="bar">Seleccione un Tipo</option>
                     <option value="bar">Graf. Barras</option>
                     <option value="pie">Graf. Pastel</option>
                     <option value="line">Graf. Lineas</option>
@@ -126,35 +126,46 @@
                 </select>
 
             </div>
-            
-            
+
+
             <div class="col-3">
-                <div id ="Seleccion_DeDatas" class="dropdown">
+                <div id="Seleccion_DeDatas" class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Seleccionar Dataset
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdownMenu">
-         
+                    <ul class="dropdown-menu" title='Ocultar' aria-labelledby="dropdownMenuButton" id="dropdownMenu">
+
                     </ul>
                 </div>
             </div>
 
 
             <div class="container mt-5">
-              
+
             </div>
-        
+
 
 
         </div>
+        <div class="table-responsive">
+            <table id="mi_tabla" class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Filtro</th>                       
+                    </tr>
+                </thead>
+                <tbody id ="body_tabla">
+                    <tr id="td_id" class="">                   
+                          
+                    </tr>            
+                </tbody>
+            </table>
+        </div>
 
-        <ul id="lis_filtro" class="list-group">
-            <li class="list-group-item d-flex justify-content-between align-items-center ">
-                <b>Lista Filtros </b>
-            </li>
 
-        </ul>
+
 
 
     </div>

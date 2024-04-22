@@ -36,48 +36,84 @@ var colores = [
     'rgba(153, 102, 255, 0.5)'
 ];
 
-//HAY QUE PASARLO DESDE EL SISC
 
-var dataGeneral = [{ "titulo1": "COOPERATIVA TAL  LCD HDMI .CV Y TAL", "titulo2": "LA CIUDAD, DEPARTAMENT, 2024", "titulo3": "la otra cosa que no recuerdo que es", "tituloGrafico": "GRÁFICO COLOCACIÓN DE CREDITO GENERAL" }];
-var dataFiltros = [{ "filtro": "filtro1" }, { "filtro": "filtro2" }, { "filtro": "filtro3" }]
-var setsDataEncabezados = [{ "NombreEncabezado": "Valor de Capital" }, { "NombreEncabezado": "Cantidad" }];
-//CONTRUCCION DE GRAFICO
+
+//var dataGeneral = [{ "titulo1": "COOPERATIVA TAL  LCD HDMI .CV Y TAL", "titulo2": "LA CIUDAD, DEPARTAMENT, 2024", "titulo3": "la otra cosa que no recuerdo que es", "tituloGrafico": "GRÁFICO COLOCACIÓN DE CREDITO GENERAL" }];
+// var dataFiltros = [{ "filtro": "filtro1" }, { "filtro": "filtro2" }, { "filtro": "filtro3" }]
+
+
 
 var titulos = [];
 var cantidades = [];
 var valores = [];
-var ColumsSets = [];
+
+var dataset_elimina = [];
+var List_ocultaSelectSets = ['bar', 'line', 'radar', ''];
+
 
 document.getElementById("titulo1").textContent = dataGeneral[0].titulo1;
 document.getElementById("titulo2").textContent = dataGeneral[0].titulo2;
 document.getElementById("titulo3").textContent = dataGeneral[0].titulo3;
 document.getElementById("tituloGrfico").textContent = dataGeneral[0].tituloGrafico
 
+//llena los arreglos necesarios para la configuracion del chart
 dataSisc.forEach(function (item) {
     titulos.push(item.nombre);
     cantidades.push(item.cantidad);
     valores.push(item.valor);
 });
-setsDataEncabezados.forEach(function (item) {
-    ColumsSets.push(item.NombreEncabezado);
+//encabezados generales del reporte, necesarios para el pdf
+
+
+
+
+dataFiltros.forEach(function (filtro) {
+    var td_drescripcio = document.createElement("td");
+    var td_filtro = document.createElement("td");
+
+    var nuevoTR = document.createElement("tr");
+    if (filtro.DES === 'Cancelados') {
+        filtro.FILTRO = 'SI'
+    }
+   td_drescripcio.textContent = filtro.DES;
+   td_filtro.textContent = filtro.FILTRO;
+   nuevoTR.appendChild(td_drescripcio);
+   nuevoTR.appendChild(td_filtro);
+
+    document.getElementById("mi_tabla").getElementsByTagName('tbody')[0].appendChild(nuevoTR);
+
 });
 
-dataFiltros.forEach(function (filtro) {
-    var nuevoli = document.createElement("li");
-    nuevoli.className = "list-group-item d-flex justify-content-between align-items-center";
-    nuevoli.textContent = filtro.filtro;
-    document.getElementById("lis_filtro").appendChild(nuevoli);
-
-});
 
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Función para agregar una fila a la tabla
+// function agregarFilaTabla(filtro) {
+//     var fila = document.createElement('tr');
+//     var celda = document.createElement('td');
+
+//     if (filtro.DES === 'Cancelados') {
+//         filtro.FILTRO = 'SI';
+//     }
+
+//     celda.textContent = filtro.DES + ' - ' + filtro.FILTRO;
+//     fila.appendChild(celda);
+//     document.getElementById('cuerpo_tabla').appendChild(fila);
+// }
+
+
+// dataFiltros.forEach(function(filtro) {
+//     agregarFilaTabla(filtro);
+// });
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+//******************enlista los data set de manera dinamica, segun vengnan del data.js
 var arreglosSeparados = {};
-
 // Recorrer cada objeto
 dataSisc.forEach(function (objeto) {
-
-
     // Recorrer cada propiedad del objeto
     Object.keys(objeto).forEach(function (propiedad) {
 
@@ -89,82 +125,36 @@ dataSisc.forEach(function (objeto) {
         arreglosSeparados[propiedad].push(objeto[propiedad]);
     });
 });
+
+
 var selectTipoGrafico = document.getElementById('tipoGrafico'); //aqui esta los tipos de graficos ()
-
+//para ocultar el select de dataset a ocultar
 selectTipoGrafico.addEventListener('change', function () {
-  
-
-
-
-
     var tipoGrafico = selectTipoGrafico.value;
-    if (tipoGrafico === 'bar' || tipoGrafico === 'line' || tipoGrafico === 'radar')  {
+
+    if (tipoGrafico === 'bar' || tipoGrafico === 'line' || tipoGrafico === 'radar') {
         document.getElementById('Seleccion_DeDatas').style.display = 'none';
     } else {
         document.getElementById('Seleccion_DeDatas').style.display = 'block';
     }
- 
-    myChart.config.type = tipoGrafico;
-    myChart.update();
-
 });
 
 
-var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: arreglosSeparados.nombre,
-        datasets: []
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                labels: {
-
-                },
-
-                position: 'top',
-
-            },
-            title: {
-                display: true,
-                text: dataGeneral[0].tituloGrafico
-            }
-        },
-        scales: {
-            y: {
-             // stacked: true
-            }
-          }
-    }
-});
 
 
-var dataset_elimina = [];
+
+
+//se llena la lista para el combobox  de dataset a ocultar y
+//actualiza el chart al cambiar la opcion de tipo de charts
 
 Object.keys(arreglosSeparados).forEach(propiedadArray => {
-
-
     if (propiedadArray !== 'nombre') {
         dataset_elimina.push(propiedadArray);
-
-        myChart.data.datasets.push({
-            label: propiedadArray,
-            data: arreglosSeparados[propiedadArray],
-            backgroundColor: colores,
-            borderColor: colores,
-            borderWidth: 5,
-            
-        });
     }
-
 })
 
 
 
-console.log(dataset_elimina);
 
 
 
@@ -174,50 +164,113 @@ console.log(dataset_elimina);
 
 
 
+//llena el combobox dedataseta a ocultar
 var dropdownMenu = document.getElementById('dropdownMenu');
-dataset_elimina.forEach(function(dataset) {
- 
+console.log(dataset_elimina);
+dataset_elimina.forEach(function (dataset) {
     var listItem = document.createElement('li');
     var link = document.createElement('a');
     link.classList.add('dropdown-item');
     link.href = '#';
-
- 
-        link.textContent = dataset  + ' ✔️';;
-    
-
-   
-
-    link.addEventListener('click', function() {
+    link.textContent = dataset + ' ✔️';
+    link.addEventListener('click', function () {
         event.preventDefault();
-        toggleDataset(dataset,link);
+        toggleDataset(dataset, link);
     });
     listItem.appendChild(link);
     dropdownMenu.appendChild(listItem);
 });
 
+//para ocultar los data set desde el combox
 function toggleDataset(label, link) {
+
     var datasetIndex = myChart.data.datasets.findIndex(dataset => dataset.label === label);
+
     if (datasetIndex !== -1) {
         myChart.data.datasets[datasetIndex].hidden = !myChart.data.datasets[datasetIndex].hidden;
-        myChart.update();
+
     }
     if (!myChart.data.datasets[datasetIndex].hidden) {
         link.textContent = label + ' ✔️';
+        link.title = 'Ocultar';
     } else {
         link.textContent = label + ' ✖️';
+        link.title = 'Mostar';
+    }
+    myChart.update();
+}
+
+
+
+
+
+
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart;
+
+function updateChart(selectedType) {
+    if (myChart) {
+        myChart.destroy(); // Destruye el gráfico existente si hay alguno
     }
 
+    myChart = new Chart(ctx, {
+        type: selectedType,
+        data: {
+            labels: arreglosSeparados.nombre,
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                    },
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: dataGeneral[0].tituloGrafico
+                }
+            },
+            scales: {
+                y: {
+                    // stacked: true
+                }
+            }
+        }
+    });
+
+    Object.keys(arreglosSeparados).forEach(propiedadArray => {
+        if (propiedadArray !== 'nombre') {
+            dataset_elimina.push(propiedadArray);
+            myChart.data.datasets.push({
+                label: propiedadArray,
+                data: arreglosSeparados[propiedadArray],
+                backgroundColor: colores,
+                borderColor: colores,
+                borderWidth: 2,
+
+            });
+        }
+
+    });
+    myChart.update();
 }
-myChart.update();
 
+document.getElementById('tipoGrafico').addEventListener('change', function () {
+    var selectedType = this.value;
+    console.log(selectedType);
+    updateChart(selectedType);
+});
 
+if (List_ocultaSelectSets.includes(document.getElementById('tipoGrafico').value)) {
+    document.getElementById('Seleccion_DeDatas').style.display = 'none';
+}
+// Actualiza el gráfico al cargar la página con el valor actual del select
+updateChart(document.getElementById('tipoGrafico').value);
 
-
-
-
-
-
+// updateChart('bar');
 
 
 
