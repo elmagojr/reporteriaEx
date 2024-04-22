@@ -36,13 +36,6 @@ var colores = [
     'rgba(153, 102, 255, 0.5)'
 ];
 
-
-
-//var dataGeneral = [{ "titulo1": "COOPERATIVA TAL  LCD HDMI .CV Y TAL", "titulo2": "LA CIUDAD, DEPARTAMENT, 2024", "titulo3": "la otra cosa que no recuerdo que es", "tituloGrafico": "GRÁFICO COLOCACIÓN DE CREDITO GENERAL" }];
-// var dataFiltros = [{ "filtro": "filtro1" }, { "filtro": "filtro2" }, { "filtro": "filtro3" }]
-
-
-
 var titulos = [];
 var cantidades = [];
 var valores = [];
@@ -85,30 +78,6 @@ dataFiltros.forEach(function (filtro) {
 });
 
 
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// Función para agregar una fila a la tabla
-// function agregarFilaTabla(filtro) {
-//     var fila = document.createElement('tr');
-//     var celda = document.createElement('td');
-
-//     if (filtro.DES === 'Cancelados') {
-//         filtro.FILTRO = 'SI';
-//     }
-
-//     celda.textContent = filtro.DES + ' - ' + filtro.FILTRO;
-//     fila.appendChild(celda);
-//     document.getElementById('cuerpo_tabla').appendChild(fila);
-// }
-
-
-// dataFiltros.forEach(function(filtro) {
-//     agregarFilaTabla(filtro);
-// });
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
 //******************enlista los data set de manera dinamica, segun vengnan del data.js
 var arreglosSeparados = {};

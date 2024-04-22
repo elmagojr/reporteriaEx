@@ -1,6 +1,16 @@
 // playground requires you to assign document definition to a variable called dd
 
 var sino = 1;
+var body_table = dataFiltros.map(filtro=>{
+	return [filtro.DES, filtro.FILTRO]
+})
+
+var with_image;
+if (List_ocultaSelectSets.includes(document.getElementById('tipoGrafico').value)) {
+    with_image = 300;
+} else{
+	with_image =500;
+}
 
 function IMPRIME_PDF(BODY_IMAGE, logoEx) {
 	//console.log(BODY_IMAGE);
@@ -30,9 +40,9 @@ function IMPRIME_PDF(BODY_IMAGE, logoEx) {
 								height: 80,
 								}:{},
 							[
-								{text: 'COOPERATIVA TAL DE CV . SDL', style: 'header',alignment: 'center'},
-								{text: 'Subtiutlo nuemro 2 ', style: 'header',alignment: 'center'},
-								{text: 'Subtitulo 30', style: 'header',alignment: 'center'},								 
+								{text: dataGeneral[0].titulo1, style: 'header',alignment: 'center'},
+								{text: dataGeneral[0].titulo2, style: 'header_dereccion',alignment: 'center'},
+								{text: dataGeneral[0].titulo3, style: 'header_dereccion',alignment: 'center'},								 
 							]				
 						
 						],					
@@ -48,7 +58,7 @@ function IMPRIME_PDF(BODY_IMAGE, logoEx) {
 						[
 							{
 							image:BODY_IMAGE ,						
-							width: 500,
+							width: with_image,
 							//height: 551,
 							alignment: 'center'
 							}
@@ -58,15 +68,16 @@ function IMPRIME_PDF(BODY_IMAGE, logoEx) {
 				layout: 'noBorders'
 			},
 			
-			'Official documentation is in progress, this document is just a glimpse of what is possible with pdfmake and its layout engine.',
-			{text: 'A simple table (no headers, no width specified, no spans, no styling)', style: 'subheader'},
-			'The following table has nothing more than a body array',
+	
+			{text: 'Listado de Filtros utilizados', style: 'subheader'},
+	
 			{
 				style: 'tableExample',
 				table: {
+					widths: ['*', 'auto'],
 					body: [
-						['Column 1', 'Column 2', 'Column 3'],
-						['One value goes here', 'Another one here', 'OK?']
+						['Descripción', 'Filtro'],
+						...body_table
 					]
 				}
 			}
@@ -74,6 +85,12 @@ function IMPRIME_PDF(BODY_IMAGE, logoEx) {
 		styles: {
 			header: {
 				fontSize: 18,
+				bold: true,
+				//margin: [0, 0, 0, 10],
+				
+			},
+			header_dereccion: {
+				fontSize: 9,
 				bold: true,
 				//margin: [0, 0, 0, 10],
 				
