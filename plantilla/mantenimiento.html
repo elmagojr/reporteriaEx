@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://static.vecteezy.com/system/resources/previews/013/950/019/original/settings-flat-icon-free-vector.jpg">
+    <title>Mantenimiento Logos</title>
+    <link href="../js/boostrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../js/boostrap/docs.css" rel="stylesheet">
+    <script src="../js/boostrap/bootstrap.bundle.min.js"></script>
+    <script src="../js/LOGOS.JS"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Verificar si el valor está presente en localStorage
+    const miValor = localStorage.getItem('graficaAbierta');
+    const botonArch = document.getElementById("id_subirarch");
+    const advertenciaDiv = document.getElementById("advertenciaDiv");
+    if (miValor) {
+        botonArch.disabled =true;
+        advertenciaDiv.hidden = false;
+        console.log('El valor está presente en localStorage:', botonArch);
+    } else {
+        console.log('El valor no está presente en localStorage');
+    }
+});
+</script>
+</head>
+
+<body>
+
+    <div class="container d-flex justify-content-center align-items-center vh-100 py-4">
+        <div class="card text-center" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Mantenimiento Logos</h5>
+                <form action="">
+                    <label for="exampleFormControlInput1" class="form-label">Logo</label>
+                    <input type="file" class="form-control mb-3" id="file1">
+                    <label for="exampleFormControlInput1" class="form-label">Membrete</label>
+                    <input type="file" class="form-control mb-3" id="file2">
+                    <button id="id_subirarch" onclick="convertirArchivos()" class="btn btn-outline-secondary">Subir
+                        Archivos</button>
+                </form>
+                <br>
+                <div id="advertenciaDiv" hidden class="alert alert-dark" role="alert">
+                   Favor Cerrar la ventana con el Gráfico y luego presione F5
+                  </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="container pb-4">
+        <div class="card-body text-center">
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="card-title">Logo</h5>
+                    <img onclick="borrar('sp_logo')" class="img-fluid" id="id_logo" src="" alt="">
+                </div>
+                <div class="col-6">
+                    <h5 class="card-title">Membrete</h5>
+                    <img onclick="borrar('sp_membrete')" class="img-fluid" src="" alt="" id="id_mem">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    <script>
+        function borrar(clave) {
+            var mensaje;
+            if (clave === 'sp_logo') {
+                mensaje = '¿Desea eliminar este logo?';
+            }
+            if (clave === 'sp_membrete') {
+                mensaje = '¿Desea eliminar el membrete?';
+            }
+            if (confirm(mensaje)) {
+                localStorage.removeItem(clave);
+                window.location.reload();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+       
+
+            let logo = localStorage.getItem('sp_logo');
+            let membrete = localStorage.getItem('sp_membrete');
+            if (logo) {
+                // Aquí puedes usar el valor almacenado en storedValue
+                document.getElementById('id_logo').src = logo;
+            }
+            if (membrete) {
+                // Aquí puedes usar el valor almacenado en storedValue
+                document.getElementById('id_mem').src = membrete;
+            }
+        });
+
+
+
+        function convertirArchivos() {
+            // Obtener los archivos seleccionados
+            const fileInput1 = document.getElementById('file1');
+            const fileInput2 = document.getElementById('file2');
+
+            const file1 = fileInput1.files[0];
+            const file2 = fileInput2.files[0];
+
+            // Convertir los archivos a base64
+            if (file1) {
+                convertirAbase64(file1, function (base64File1) {
+                    localStorage.setItem('sp_logo', base64File1);
+                    //console.log('Archivo 1 en base64:', base64File1);
+                });
+            }
+            if (file2) {
+                convertirAbase64(file2, function (base64File2) {
+                    localStorage.setItem('sp_membrete', base64File2);
+                    //console.log('Archivo 2 en base64:', base64File2);
+                });
+            }
+            //Location.reload();
+        }
+
+        function convertirAbase64(file, callback) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                callback(reader.result);
+            };
+            reader.onerror = function (error) {
+                console.error('Error al convertir archivo a base64:', error);
+            };
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>

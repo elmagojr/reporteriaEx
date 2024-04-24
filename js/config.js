@@ -36,12 +36,10 @@ var colores = [
     'rgba(153, 102, 255, 0.5)'
 ];
 
-var titulos = [];
-var cantidades = [];
-var valores = [];
+
 
 var dataset_elimina = [];
-var List_ocultaSelectSets = ['bar', 'line', 'radar', ''];
+var List_ocultaSelectSets = ['bar', 'line', 'radar'];
 
 
 document.getElementById("titulo1").textContent = dataGeneral[0].titulo1;
@@ -49,12 +47,7 @@ document.getElementById("titulo2").textContent = dataGeneral[0].titulo2;
 document.getElementById("titulo3").textContent = dataGeneral[0].titulo3;
 document.getElementById("tituloGrfico").textContent = dataGeneral[0].tituloGrafico
 
-//llena los arreglos necesarios para la configuracion del chart
-dataSisc.forEach(function (item) {
-    titulos.push(item.nombre);
-    cantidades.push(item.cantidad);
-    valores.push(item.valor);
-});
+
 //encabezados generales del reporte, necesarios para el pdf
 
 
@@ -117,7 +110,7 @@ selectTipoGrafico.addEventListener('change', function () {
 //actualiza el chart al cambiar la opcion de tipo de charts
 
 Object.keys(arreglosSeparados).forEach(propiedadArray => {
-    if (propiedadArray !== 'nombre') {
+    if (propiedadArray.toLowerCase() !== 'nombre') {
         dataset_elimina.push(propiedadArray);
     }
 })
@@ -186,7 +179,7 @@ function updateChart(selectedType) {
     myChart = new Chart(ctx, {
         type: selectedType,
         data: {
-            labels: arreglosSeparados.nombre,
+            labels: arreglosSeparados.Nombre,
             datasets: []
         },
         options: {
@@ -211,8 +204,9 @@ function updateChart(selectedType) {
     });
 
     Object.keys(arreglosSeparados).forEach(propiedadArray => {
-        if (propiedadArray !== 'nombre') {
-            dataset_elimina.push(propiedadArray);
+        var nombre = 'nombre';
+        if (propiedadArray.toLowerCase() !== nombre.toLowerCase()) {
+            dataset_elimina.push(propiedadArray.toUpperCase());
             myChart.data.datasets.push({
                 label: propiedadArray,
                 data: arreglosSeparados[propiedadArray],
@@ -237,7 +231,12 @@ if (List_ocultaSelectSets.includes(document.getElementById('tipoGrafico').value)
     document.getElementById('Seleccion_DeDatas').style.display = 'none';
 }
 // Actualiza el gráfico al cargar la página con el valor actual del select
-updateChart(document.getElementById('tipoGrafico').value);
+if (dataGeneral[0].tipoGrafico) {
+    updateChart(dataGeneral[0].tipoGrafico);
+}else{
+    updateChart(document.getElementById('tipoGrafico').value);
+}
+
 
 // updateChart('bar');
 
