@@ -9,7 +9,10 @@
 
     <link href="../js/boostrap/bootstrap.min.css" rel="stylesheet">
     <link href="../js/boostrap/docs.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="../js/boostrap/bootstrap-icons.min.css">  -->
+    
     <script src="../js/boostrap/bootstrap.bundle.min.js"></script>
+
     <script src="../js/chart.js"></script>
     <script src="../js/LOGOS.JS"></script>
 
@@ -18,6 +21,7 @@
     <script src="../js/topdf/vfs_fonts.js"></script>
     <script>
         localStorage.setItem('graficaAbierta', 'true');
+      
     </script>
 
 
@@ -62,9 +66,32 @@
         .chart-container {
             position: relative;
             margin: auto;
-            height: 100vh;
-            width: 100%;
+            height: 120vh;
+            width: 120vh;
+            transition: width 0.1s;
+            transition: height 0.1s;
         }
+
+        .fixed-buttons {
+            position: fixed;
+            top: 50%;
+            /* Ajusta la posición verticalmente */
+            right: 0;
+            /* Ajusta la posición horizontalmente */
+            transform: translateY(-50%);
+            /* Centra verticalmente */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            /* Espacio entre botones */
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+        }
+
+
+
+
 
         /* .verbor {
             border: 1px dotted rgb(204, 14, 153);
@@ -76,6 +103,15 @@
 
 <body>
 
+    <div class="fixed-buttons">
+        <button class="btn btn-secondary" onclick="Ampliar()">⬆️</button>
+        <button class="btn btn-secondary" onclick="Encoger()">⬇️</button>
+        <button class="btn btn-secondary" onclick="subirAncho()">➡️</span></button>
+        
+
+    </div>
+
+
 
     <div class="container encabezado py-4 verbor">
         <div class="row ">
@@ -84,7 +120,8 @@
                     <img id="imagenLogo" src="" class="img-fluid py-3" alt="image desc" />
                 </picture>
                 <script>
-                    document.getElementById("imagenLogo").src = logotipos.principal;
+                    var sp_logo = localStorage.getItem('sp_logo');                
+                    document.getElementById("imagenLogo").src = sp_logo;
                 </script>
 
             </div>
@@ -104,8 +141,17 @@
 
     <script src="../js/data.js"></script>
 
-    <div id="contenedor_delChart" class="verbor chart-container pb-4 d-flex justify-content-center">
+
+
+
+
+
+
+    <div id="contenedor_delChart" style="max-width: 95%; width: 95%; height: 80vh; max-height: 300vh;"
+        class="verbor chart-container pb-4 d-flex justify-content-center">
         <canvas id="myChart"></canvas>
+
+
     </div>
 
 
@@ -140,12 +186,6 @@
                     </ul>
                 </div>
             </div>
-
-
-            <div class="container mt-5">
-
-            </div>
-
 
 
         </div>

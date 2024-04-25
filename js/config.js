@@ -74,16 +74,11 @@ dataFiltros.forEach(function (filtro) {
 
 //******************enlista los data set de manera dinamica, segun vengnan del data.js
 var arreglosSeparados = {};
-// Recorrer cada objeto
 dataSisc.forEach(function (objeto) {
-    // Recorrer cada propiedad del objeto
     Object.keys(objeto).forEach(function (propiedad) {
-
-        // Si no existe un arreglo para esta propiedad, crearlo
         if (!arreglosSeparados[propiedad]) {
             arreglosSeparados[propiedad] = [];
         }
-        // Agregar el valor de la propiedad al arreglo correspondiente
         arreglosSeparados[propiedad].push(objeto[propiedad]);
     });
 });
@@ -92,15 +87,18 @@ dataSisc.forEach(function (objeto) {
 var selectTipoGrafico = document.getElementById('tipoGrafico'); //aqui esta los tipos de graficos ()
 //para ocultar el select de dataset a ocultar
 selectTipoGrafico.addEventListener('change', function () {
+    DeshabiliarSelectDataSets(selectTipoGrafico) ;
+});
+
+function DeshabiliarSelectDataSets(selectTipoGrafico) {
     var tipoGrafico = selectTipoGrafico.value;
 
     if (tipoGrafico === 'bar' || tipoGrafico === 'line' || tipoGrafico === 'radar') {
         document.getElementById('Seleccion_DeDatas').style.display = 'none';
     } else {
         document.getElementById('Seleccion_DeDatas').style.display = 'block';
-    }
-});
-
+    } 
+}
 
 
 
@@ -184,6 +182,9 @@ function updateChart(selectedType) {
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
+            aspectRatio: 2,
+            
             plugins: {
                 legend: {
                     labels: {
@@ -223,7 +224,7 @@ function updateChart(selectedType) {
 
 document.getElementById('tipoGrafico').addEventListener('change', function () {
     var selectedType = this.value;
-    console.log(selectedType);
+   // console.log(selectedType);
     updateChart(selectedType);
 });
 
@@ -232,13 +233,62 @@ if (List_ocultaSelectSets.includes(document.getElementById('tipoGrafico').value)
 }
 // Actualiza el gráfico al cargar la página con el valor actual del select
 if (dataGeneral[0].tipoGrafico) {
+    var select = document.getElementById('tipoGrafico');
+    select.value =dataGeneral[0].tipoGrafico;
+    DeshabiliarSelectDataSets(select) ;
     updateChart(dataGeneral[0].tipoGrafico);
+    
 }else{
     updateChart(document.getElementById('tipoGrafico').value);
 }
 
 
+
+//------------------------------------------------------------------------------------------------>
+function Ampliar() {
+    var contenedorChart=document.getElementById("contenedor_delChart");
+    var alturaActual =parseFloat(contenedorChart.style.height.replace('vh', ''));
+    var anchoActual =parseFloat(contenedorChart.style.width.replace('vh', ''));
+    console.log("socio: "+alturaActual);
+    if (alturaActual<=300) {
+        contenedorChart.style.height = (alturaActual * 1.2) + 'vh';
+        contenedorChart.style.width = (anchoActual * 1.2) + 'vh';
+        console.log("ancho: "+contenedorChart.style.width);
+        console.log("Alto: "+contenedorChart.style.height);
+    }
+
+
+}
+function Encoger() {
+    var contenedorChart=document.getElementById("contenedor_delChart");
+    var alturaActual =parseFloat(contenedorChart.style.height.replace('vh', ''));
+    var anchoActual =parseFloat(contenedorChart.style.width.replace('vh', ''));
+    if (alturaActual>=80) {
+        contenedorChart.style.height = (alturaActual / 1.2) + 'vh';
+        contenedorChart.style.width = (anchoActual / 1.2) + 'vh';
+        console.log("ancho: "+contenedorChart.style.width);
+        console.log("Alto: "+contenedorChart.style.height);
+    }
+    
+}
+
+
+function subirAltura(params) {
+    
+}
+function subirAncho() {
+    var contenedorChart=document.getElementById("contenedor_delChart");
+    var anchoActual =parseFloat(contenedorChart.style.width.replace('vh', ''));
+    var alturaActual =parseFloat(contenedorChart.style.height.replace('vh', ''));
+    if (alturaActual>=80) {
+    contenedorChart.style.width = (anchoActual * 1.2) + 'vh';
+    }
+}
 // updateChart('bar');
+
+//intento #22
+
+
 
 
 

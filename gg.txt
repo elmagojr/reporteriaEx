@@ -1,0 +1,1 @@
+con('{"Nombre":"',F_Variables.LONG3,'","Monto Principal":"',F_Variables.MONTO3,'","Monto Intereses":"',F_Variables.MONTO4,'","Cantidad Oper.":"',F_Variables.LONG4,'"},')
