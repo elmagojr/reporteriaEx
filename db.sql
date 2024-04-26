@@ -1,109 +1,16 @@
-SELECT
-    'PERSONA JURIDICA' Afiliado,
-    COUNT (1) Cantidad
-FROM
-    DBA.Cooperativistas
-WHERE
-    Coop_Es_Empresa = 1
-    AND EXISTS (
-        SELECT
-            Aho_Codigo_Cta,
-            Isnull (
-                SUM (
-                    Tra_Mto_Deposito + Tra_Mto_Interes - Tra_Mto_Retiro - Tra_Mto_Isr
-                ),
-                0
-            ) Saldo
-        FROM
-            DBA.Trans_Ahorro
-            INNER JOIN DBA.Ahorros ON Tra_Codigo_Cta = Aho_Codigo_Cta
-        WHERE
-            Aho_Codigo_Coo = Coop_Codigo
-            AND Aho_Tipo_Cta = @[Parametros.PAR_CTA_APORTACION]
-            AND AHO_INACTIVA = 0
-            AND Tra_Fecha_Trans <= @[F_Variables.FECHA1]
-        GROUP BY
-            Aho_Codigo_Cta
-        HAVING
-            Saldo > 0.01
-    )
-GROUP BY
-    Coop_Es_Empresa
-UNION
-ALL
-SELECT
-    CASE
-        Coop_Sexo
-        WHEN 0 THEN 'HOMBRE'
-        WHEN 1 THEN 'MUJER'
-        ELSE 'IDEFINIDO'
-    END Afiliado,
-    COUNT (1) Cantidad
-FROM
-    DBA.Cooperativistas
-WHERE
-    EXISTS (
-        SELECT
-            Aho_Codigo_Cta,
-            Isnull (
-                SUM (
-                    Tra_Mto_Deposito + Tra_Mto_Interes - Tra_Mto_Retiro - Tra_Mto_Isr
-                ),
-                0
-            ) Saldo
-        FROM
-            DBA.Trans_Ahorro
-            INNER JOIN DBA.Ahorros ON Tra_Codigo_Cta = Aho_Codigo_Cta
-        WHERE
-            Aho_Codigo_Coo = Coop_Codigo
-            AND Aho_Tipo_Cta = @[Parametros.PAR_CTA_APORTACION]
-            AND AHO_INACTIVA = 0
-            AND Tra_Fecha_Trans <= @[F_Variables.FECHA1]
-        GROUP BY
-            Aho_Codigo_Cta
-        HAVING
-            Saldo > 0.01
-    )
-    AND Coop_Es_Empresa = 0
-GROUP BY
-    Coop_Sexo
-UNION
-ALL
-SELECT
-    CASE
-        Coop_Sexo
-        WHEN 0 THEN 'NIÑOS'
-        WHEN 1 THEN 'NIÑAS'
-        ELSE 'INDEFINIDO'
-    END Afiliados,
-    COUNT (1) Cantidad
-FROM
-    DBA.Cooperativistas
-WHERE
-    EXISTS (
-        SELECT
-            Aho_Codigo_Cta,
-            Isnull (
-                SUM (
-                    Tra_Mto_Deposito + Tra_Mto_Interes - Tra_Mto_Retiro - Tra_Mto_Isr
-                ),
-                0
-            ) Saldo
-        FROM
-            DBA.Trans_Ahorro
-            INNER JOIN DBA.Ahorros ON Tra_Codigo_Cta = Aho_Codigo_Cta
-        WHERE
-            Aho_Codigo_Coo = Coop_Codigo
-            AND Aho_Tipo_Cta = @[Parametros.PAR_CTA_MENORES]
-            AND AHO_INACTIVA = 0
-            AND Tra_Fecha_Trans <= @[F_Variables.FECHA1]
-        GROUP BY
-            Aho_Codigo_Cta
-        HAVING
-            Saldo > 0.01
-    )
-    AND Coop_Es_Empresa = 0
-GROUP BY
-    Coop_Sexo
-ORDER BY
-    Cantidad
+      select coop_codigo,coop_nombre,aho_codigo_cta as cuenta,(SUM(TRA_MTO_DEPOSITO)+SUM(TRA_MTO_RETIRO)+sum(TRA_MTO_INGRESO)+sum(TRA_MTO_INTERES)) as monto,
+        tra_fecha_trans as fecha,tra_agrego as agrego,tra_secuencia as secuencia
+        from dba.TRANS_AHORRO,DBA.Usuarios,dba.tipos_trans,dba.ahorros,dba.cooperativistas
+        where aho_codigo_coo = coop_codigo and aho_codigo_cta = tra_codigo_cta and TRA_AGREGO = USU_CODIGO
+        and TRA_AGREGO = any(select distinct(REG_CODIGO_CAJERO) from dba.REG_CAJERO where reg_fecha >= '01/01/2023')
+        and TRA_ESTADO <> 3 and TRA_TIPO_PAGO like '%' and TRA_FECHA_TRANS >= '01/01/2023' and TRA_FECHA_TRANS <= '01/01/2024' and tra_tipo_trans = ttr_codigo
+        and ttr_descripcion like 'NOTA DE CREDITO' and USU_CODIGO like '%' and tra_filial like 1
+        group by coop_codigo,coop_nombre,aho_codigo_cta,tra_fecha_trans,tra_agrego,tra_secuencia union all
+      select coop_codigo,coop_nombre,cre_codigo_cta as cuenta,(SUM(TRC_MTO_CAPITAL)+SUM(TRC_MTO_INTERES)+sum(TRC_MTO_MORA)+sum(TRC_OTROS_CARGOS)) as monto,
+        trc_fecha_trans as fecha,trc_agrego as agrego,trc_secuencia as secuencia
+        from dba.TRANS_CREDITO,DBA.Usuarios,dba.tipos_trans,dba.creditos,dba.cooperativistas
+        where cre_codigo_coop = coop_codigo and cre_codigo_cta = trc_codigo_cta and TRC_AGREGO = USU_CODIGO
+        and TRC_AGREGO = any(select distinct(REG_CODIGO_CAJERO) from dba.REG_CAJERO where reg_fecha >= '01/01/2023')
+        and TRC_ESTADO <> 3 and TRC_TIPO_PAGO like '%' and TRC_FECHA_TRANS >= '01/01/2023' and TRC_FECHA_TRANS <= '01/01/2024' and trc_tipo_trans = ttr_codigo
+        and ttr_descripcion like 'NOTA DE CREDITO' and USU_CODIGO like '%' and trc_filial like 1
+        group by coop_codigo,coop_nombre,cre_codigo_cta,trc_fecha_trans,trc_agrego,trc_secuencia order by monto desc

@@ -61,10 +61,10 @@ dataFiltros.forEach(function (filtro) {
     if (filtro.DES === 'Cancelados') {
         filtro.FILTRO = 'SI'
     }
-   td_drescripcio.textContent = filtro.DES;
-   td_filtro.textContent = filtro.FILTRO;
-   nuevoTR.appendChild(td_drescripcio);
-   nuevoTR.appendChild(td_filtro);
+    td_drescripcio.textContent = filtro.DES;
+    td_filtro.textContent = filtro.FILTRO;
+    nuevoTR.appendChild(td_drescripcio);
+    nuevoTR.appendChild(td_filtro);
 
     document.getElementById("mi_tabla").getElementsByTagName('tbody')[0].appendChild(nuevoTR);
 
@@ -87,7 +87,7 @@ dataSisc.forEach(function (objeto) {
 var selectTipoGrafico = document.getElementById('tipoGrafico'); //aqui esta los tipos de graficos ()
 //para ocultar el select de dataset a ocultar
 selectTipoGrafico.addEventListener('change', function () {
-    DeshabiliarSelectDataSets(selectTipoGrafico) ;
+    DeshabiliarSelectDataSets(selectTipoGrafico);
 });
 
 function DeshabiliarSelectDataSets(selectTipoGrafico) {
@@ -97,7 +97,7 @@ function DeshabiliarSelectDataSets(selectTipoGrafico) {
         document.getElementById('Seleccion_DeDatas').style.display = 'none';
     } else {
         document.getElementById('Seleccion_DeDatas').style.display = 'block';
-    } 
+    }
 }
 
 
@@ -183,29 +183,52 @@ function updateChart(selectedType) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            aspectRatio: 2,
-            
+            aspectRatio: 1,
+            indexAxis: 'x', //para cambiar el eje principal al y o x
+
             plugins: {
                 legend: {
                     labels: {
                     },
-                    position: 'top',
+                    position: 'bottom',
                 },
                 title: {
                     display: true,
                     text: dataGeneral[0].tituloGrafico
                 }
             },
+            interaction: {
+                intersect: false,
+            },
             scales: {
                 y: {
-                    // stacked: true
-                }
+                    type:'linear',//'logarithmic',
+                    // ticks: {
+                    //     callback: function (value, index, values) {
+                    //         return Number(value.toString());//pass tick values as a string into Number function
+                    //     }
+                    // },
+                    // Edita las escalas del eje Y
+                    //min: 500, // Valor mínimo del eje Y
+                    //max: 50000000, // Valor máximo del eje Y
+                    //stepSize: 1, // Tamaño del paso entre los valores del eje Y
+                    // Otros ajustes del eje Y
+                    title: {
+                        display: false,
+                        text: 'Valor'
+                    },
+                    //stacked: true
+                },
+                x: {
+                    //stacked: true,
+                },
             }
         }
     });
 
     Object.keys(arreglosSeparados).forEach(propiedadArray => {
         var nombre = 'nombre';
+        var nombre2 = 'nombre1';
         if (propiedadArray.toLowerCase() !== nombre.toLowerCase()) {
             dataset_elimina.push(propiedadArray.toUpperCase());
             myChart.data.datasets.push({
@@ -213,8 +236,8 @@ function updateChart(selectedType) {
                 data: arreglosSeparados[propiedadArray],
                 backgroundColor: colores,
                 borderColor: colores,
-                borderWidth: 2,
-
+                borderWidth: 3,
+                //stack: propiedadArray.toLowerCase()==='monto principal' || propiedadArray.toLowerCase()==='monto intereses'? 'Stack 0':'Stack 1',
             });
         }
 
@@ -224,7 +247,7 @@ function updateChart(selectedType) {
 
 document.getElementById('tipoGrafico').addEventListener('change', function () {
     var selectedType = this.value;
-   // console.log(selectedType);
+    // console.log(selectedType);
     updateChart(selectedType);
 });
 
@@ -234,11 +257,11 @@ if (List_ocultaSelectSets.includes(document.getElementById('tipoGrafico').value)
 // Actualiza el gráfico al cargar la página con el valor actual del select
 if (dataGeneral[0].tipoGrafico) {
     var select = document.getElementById('tipoGrafico');
-    select.value =dataGeneral[0].tipoGrafico;
-    DeshabiliarSelectDataSets(select) ;
+    select.value = dataGeneral[0].tipoGrafico;
+    DeshabiliarSelectDataSets(select);
     updateChart(dataGeneral[0].tipoGrafico);
-    
-}else{
+
+} else {
     updateChart(document.getElementById('tipoGrafico').value);
 }
 
@@ -246,43 +269,54 @@ if (dataGeneral[0].tipoGrafico) {
 
 //------------------------------------------------------------------------------------------------>
 function Ampliar() {
-    var contenedorChart=document.getElementById("contenedor_delChart");
-    var alturaActual =parseFloat(contenedorChart.style.height.replace('vh', ''));
-    var anchoActual =parseFloat(contenedorChart.style.width.replace('vh', ''));
-    console.log("socio: "+alturaActual);
-    if (alturaActual<=300) {
+    var contenedorChart = document.getElementById("contenedor_delChart");
+    var alturaActual = parseFloat(contenedorChart.style.height.replace('vh', ''));
+    var anchoActual = parseFloat(contenedorChart.style.width.replace('vh', ''));
+    console.log("socio: " + alturaActual);
+    if (alturaActual <= 300) {
         contenedorChart.style.height = (alturaActual * 1.2) + 'vh';
         contenedorChart.style.width = (anchoActual * 1.2) + 'vh';
-        console.log("ancho: "+contenedorChart.style.width);
-        console.log("Alto: "+contenedorChart.style.height);
+        console.log("ancho: " + contenedorChart.style.width);
+        console.log("Alto: " + contenedorChart.style.height);
     }
 
 
 }
 function Encoger() {
-    var contenedorChart=document.getElementById("contenedor_delChart");
-    var alturaActual =parseFloat(contenedorChart.style.height.replace('vh', ''));
-    var anchoActual =parseFloat(contenedorChart.style.width.replace('vh', ''));
-    if (alturaActual>=80) {
+    var contenedorChart = document.getElementById("contenedor_delChart");
+    var alturaActual = parseFloat(contenedorChart.style.height.replace('vh', ''));
+    var anchoActual = parseFloat(contenedorChart.style.width.replace('vh', ''));
+    if (alturaActual >= 80) {
         contenedorChart.style.height = (alturaActual / 1.2) + 'vh';
         contenedorChart.style.width = (anchoActual / 1.2) + 'vh';
-        console.log("ancho: "+contenedorChart.style.width);
-        console.log("Alto: "+contenedorChart.style.height);
+        console.log("ancho: " + contenedorChart.style.width);
+        console.log("Alto: " + contenedorChart.style.height);
     }
-    
+
 }
 
 
 function subirAltura(params) {
-    
+
 }
 function subirAncho() {
-    var contenedorChart=document.getElementById("contenedor_delChart");
-    var anchoActual =parseFloat(contenedorChart.style.width.replace('vh', ''));
-    var alturaActual =parseFloat(contenedorChart.style.height.replace('vh', ''));
-    if (alturaActual>=80) {
-    contenedorChart.style.width = (anchoActual * 1.2) + 'vh';
+    var contenedorChart = document.getElementById("contenedor_delChart");
+    var anchoActual = parseFloat(contenedorChart.style.width.replace('vh', ''));
+    var alturaActual = parseFloat(contenedorChart.style.height.replace('vh', ''));
+    if (alturaActual >= 80) {
+        contenedorChart.style.width = (anchoActual * 1.2) + 'vh';
     }
+}
+
+var Escala;
+function Escalar() {
+
+    myChart.options.scales.y.type = 'logarithmic';
+    myChart.update();
+}
+function NoEscalar() {
+    myChart.options.scales.y.type = 'linear';
+    myChart.update();
 }
 // updateChart('bar');
 
