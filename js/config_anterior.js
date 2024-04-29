@@ -37,23 +37,21 @@ var colores = [
 ];
 
 
-const DATA_GRAFICA = CargaDataGrafica();
-var dataset_elimina = [];
-var List_ocultaSelectSets = ['bar', 'line', 'radar'];//lista de tipos de graficos que ocultan el select ocultar dataset
-function CargaDataGrafica() {
-    return SepararArreglos(dataSisc);
-}
-document.addEventListener("DOMContentLoaded", function () {
 
-    //console.log(GraficaData);
-    DistribuirData(DATA_GRAFICA);
-    updateChart(dataGeneral[0].tipoGrafico, DATA_GRAFICA)
-})
+var dataset_elimina = [];
+var List_ocultaSelectSets = ['bar', 'line', 'radar'];
+
 
 document.getElementById("titulo1").textContent = dataGeneral[0].titulo1;
 document.getElementById("titulo2").textContent = dataGeneral[0].titulo2;
 document.getElementById("titulo3").textContent = dataGeneral[0].titulo3;
 document.getElementById("tituloGrfico").textContent = dataGeneral[0].tituloGrafico
+
+
+//encabezados generales del reporte, necesarios para el pdf
+
+
+
 
 dataFiltros.forEach(function (filtro) {
     var td_drescripcio = document.createElement("td");
@@ -67,138 +65,36 @@ dataFiltros.forEach(function (filtro) {
     td_filtro.textContent = filtro.FILTRO;
     nuevoTR.appendChild(td_drescripcio);
     nuevoTR.appendChild(td_filtro);
+
     document.getElementById("mi_tabla").getElementsByTagName('tbody')[0].appendChild(nuevoTR);
 
 });
 
 
 
-console.log(DATA_GRAFICA);
 //******************enlista los data set de manera dinamica, segun vengnan del data.js
 var arreglosSeparados = {};
 var arregloDistribuciones = [];
-var arregloValores = [];
-var arregloDAtaSets1 = [];
-var arregloDAtaSets2 = [];
-
-
 dataSisc.forEach(function (objeto) {
+    Object.keys(objeto).forEach(function (propiedad) {
+        if (!arreglosSeparados[propiedad]) {
+            arreglosSeparados[propiedad] = [];
+        }
+        arreglosSeparados[propiedad].push(objeto[propiedad]);
+    });
 
     Object.entries(objeto).forEach(([key, value]) => {
         if (!isNaN(value)) {
-            arregloDAtaSets1.push(value);
-            arregloValores.push(key);
+
         } else {
-            arregloDAtaSets2.push(value);
-            arregloDistribuciones.push(key);
+            arregloDistribuciones.push(value);
         }
+        //console.log("KEY: "+key+" value: "+value);
     });
 
 });
-arregloDistribuciones = [...new Set(arregloDistribuciones)];//los nombres strings
-arregloValores = [...new Set(arregloValores)]; //los encabezados de los valores
-
-function ObtenerNombreObjeto(objeto) {
-    return Object.keys(objeto);
-}
-function SepararArreglos(ARREGLO) {
-    var AtributosSeprados = {};
-    var Strings = [];
-    var numeros = [];
-
-    ARREGLO.forEach(function (OBJETO) {
-        Object.keys(OBJETO).forEach(function (nombre) {
-
-            var valor = OBJETO[nombre];
-            console.log("nOMBRE + OBJETO: ", valor);
-            if (isNaN(parseFloat(valor))) {
-                Strings.push(nombre);
-            } else {
-                if (nombre.toLowerCase()==='nombre') {
-                    Strings.push(nombre);
-                }else{numeros.push(nombre);}
-                
-            }
-            if (!AtributosSeprados[nombre]) { //nombresAtributos["Nombre"]
-                AtributosSeprados[nombre] = [];
-            }
-            AtributosSeprados[nombre].push(OBJETO[nombre]);
-        });
-
-    });
-    var listaDistibuciones = [...new Set(AtributosSeprados.Nombre2)]
-    console.log("CHIT",listaDistibuciones);
-    return {
-        data: AtributosSeprados,
-        distribuciones: listaDistibuciones,
-        EncabezadosString: [...new Set(Strings)],
-        EncabezadosNumeros: [...new Set(numeros)]
-    };
-}
-
-
-
-function DistribuirData(LosAtibutos) {
-
-    var selec_distribucion = document.getElementById("selec_distribucion");
-    LosAtibutos.distribuciones.forEach(valor => {
-        var opcion = document.createElement("option");
-        opcion.textContent = valor;
-        selec_distribucion.add(opcion);
-    })
-    if (LosAtibutos.EncabezadosString.length <= 1) {
-        selec_distribucion.hidden = true;
-    }
-
-    //llena el combobox dedataseta a ocultar
-    var dropdownMenu = document.getElementById('dropdownMenu');
-    //console.log(dataset_elimina);
-    LosAtibutos.EncabezadosNumeros.forEach(function (dataset) {
-        var listItem = document.createElement('li');
-        var link = document.createElement('a');
-        link.classList.add('dropdown-item');
-        link.href = '#';
-        link.textContent = dataset + ' ✔️';
-        link.addEventListener('click', function () {
-            event.preventDefault();
-            toggleDataset(dataset, link);
-        });
-        listItem.appendChild(link);
-        dropdownMenu.appendChild(listItem);
-    });
-
-    //console.log(LosAtibutos);
-    //return LosAtibutos;
-}
-var selectDistribcion = document.getElementById("selec_distribucion")
-//console.log("Distro: "+selectDistribcion);
-selectDistribcion.addEventListener("change", function () {
-    var seleccionado = selectDistribcion.options[selectDistribcion.selectedIndex].text;
-    console.log("Opción seleccionada:", seleccionado);
-    OcultarDistibucion(seleccionado);
-});
-
-function OcultarDistibucion(distribucion) {
-    //console.log(DATA_GRAFICA);
-    var tipo = document.getElementById("tipoGrafico").value
-    var dataFiltrada = dataSisc.filter(item => item["Nombre2"] === distribucion || distribucion === '');
-
-    //console.log("filtrada", SepararArreglos(dataFiltrada));
-    updateChart(tipo, SepararArreglos(dataFiltrada))
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
+arregloDistribuciones = [...new Set(arregloDistribuciones)];
+//console.log("distribuciones: "+[...new Set(arregloDistribuciones)]);
 
 var selectTipoGrafico = document.getElementById('tipoGrafico'); //aqui esta los tipos de graficos ()
 //para ocultar el select de dataset a ocultar
@@ -206,17 +102,19 @@ selectTipoGrafico.addEventListener('change', function () {
     DeshabiliarSelectDataSets(selectTipoGrafico);
 });
 
-
-
 function DeshabiliarSelectDataSets(selectTipoGrafico) {
     var tipoGrafico = selectTipoGrafico.value;
 
-    if (List_ocultaSelectSets.includes(tipoGrafico)) {
+    if (tipoGrafico === 'bar' || tipoGrafico === 'line' || tipoGrafico === 'radar') {
         document.getElementById('Seleccion_DeDatas').style.display = 'none';
     } else {
         document.getElementById('Seleccion_DeDatas').style.display = 'block';
     }
 }
+
+
+
+
 
 //se llena la lista para el combobox  de dataset a ocultar y
 //actualiza el chart al cambiar la opcion de tipo de charts
@@ -236,8 +134,38 @@ Object.keys(arreglosSeparados).forEach(propiedadArray => {
 
 
 
+var dropDistribucion = document.getElementById('dropDistribucion');
+arregloDistribuciones.forEach(function (distibucion) {
+    var listItem = document.createElement('li');
+    var link = document.createElement('a');
+    link.classList.add('dropdown-item');
+    link.href = '#';
+    link.textContent = distibucion;
+    link.addEventListener('click', function () {
+        event.preventDefault();
+        CambiarDistribucion(distibucion, link);
+    });
+    listItem.appendChild(link);
+    dropDistribucion.appendChild(listItem);
+})
 
 
+//llena el combobox dedataseta a ocultar
+var dropdownMenu = document.getElementById('dropdownMenu');
+//console.log(dataset_elimina);
+dataset_elimina.forEach(function (dataset) {
+    var listItem = document.createElement('li');
+    var link = document.createElement('a');
+    link.classList.add('dropdown-item');
+    link.href = '#';
+    link.textContent = dataset + ' ✔️';
+    link.addEventListener('click', function () {
+        event.preventDefault();
+        toggleDataset(dataset, link);
+    });
+    listItem.appendChild(link);
+    dropdownMenu.appendChild(listItem);
+});
 
 //para ocultar los data set desde el combox
 function toggleDataset(label, link) {
@@ -258,7 +186,14 @@ function toggleDataset(label, link) {
     myChart.update();
 }
 
+function CambiarDistribucion(distibucion, link) {
+    //var DistibucionSelccionada = document.getElementById('dropDistribucion').value;
+    const result = dataSisc.filter((word) => word["Nombre2"] === "AHORROS");
+    //var dataFiltrada = dataSisc.filter(item => item["Nombre2"] === distibucion || distibucion === '');
+    console.log("distibucion: " + distibucion + "  datafiltrada: " + JSON.stringify(result));
 
+    // myChart.update();
+}
 
 
 
@@ -268,8 +203,7 @@ function toggleDataset(label, link) {
 var ctx = document.getElementById('myChart').getContext('2d');
 var myChart;
 
-function updateChart(selectedType, data) {
-
+function updateChart(selectedType) {
     if (myChart) {
         myChart.destroy(); // Destruye el gráfico existente si hay alguno
     }
@@ -277,7 +211,7 @@ function updateChart(selectedType, data) {
     myChart = new Chart(ctx, {
         type: selectedType,
         data: {
-            labels: data.data.Nombre,
+            labels: arreglosSeparados.Nombre,
             datasets: []
         },
         options: {
@@ -326,15 +260,17 @@ function updateChart(selectedType, data) {
         }
     });
 
-    Object.keys(data.data).forEach(propiedadArray => {
+    Object.keys(arreglosSeparados).forEach(propiedadArray => {
+        var nombre = 'nombre';
+        var nombre2 = 'tipo cuenta.';
 
-        if (!data.EncabezadosString.includes(propiedadArray)) {
+
+        if (propiedadArray.toLowerCase() !== nombre.toLowerCase()) {
 
             dataset_elimina.push(propiedadArray.toUpperCase());
-            console.log(dataset_elimina);
             myChart.data.datasets.push({
                 label: propiedadArray,
-                data: data.data[propiedadArray],
+                data: arreglosSeparados[propiedadArray],
                 backgroundColor: colores,
                 borderColor: colores,
                 borderWidth: 3,
@@ -349,7 +285,7 @@ function updateChart(selectedType, data) {
 document.getElementById('tipoGrafico').addEventListener('change', function () {
     var selectedType = this.value;
     // console.log(selectedType);
-    updateChart(selectedType, DATA_GRAFICA);
+    updateChart(selectedType);
 });
 
 if (List_ocultaSelectSets.includes(document.getElementById('tipoGrafico').value)) {
@@ -360,11 +296,10 @@ if (dataGeneral[0].tipoGrafico) {
     var select = document.getElementById('tipoGrafico');
     select.value = dataGeneral[0].tipoGrafico;
     DeshabiliarSelectDataSets(select);
-
-    updateChart(dataGeneral[0].tipoGrafico, DATA_GRAFICA);
+    updateChart(dataGeneral[0].tipoGrafico);
 
 } else {
-    updateChart(document.getElementById('tipoGrafico').value, GraficaData);
+    updateChart(document.getElementById('tipoGrafico').value);
 }
 
 
@@ -374,7 +309,7 @@ function Ampliar() {
     var contenedorChart = document.getElementById("contenedor_delChart");
     var alturaActual = parseFloat(contenedorChart.style.height.replace('vh', ''));
     var anchoActual = parseFloat(contenedorChart.style.width.replace('vh', ''));
-    //console.log("socio: " + alturaActual);
+    console.log("socio: " + alturaActual);
     if (alturaActual <= 300) {
         contenedorChart.style.height = (alturaActual * 1.2) + 'vh';
         contenedorChart.style.width = (anchoActual * 1.2) + 'vh';
@@ -398,7 +333,9 @@ function Encoger() {
 }
 
 
+function subirAltura(params) {
 
+}
 function subirAncho() {
     var contenedorChart = document.getElementById("contenedor_delChart");
     var anchoActual = parseFloat(contenedorChart.style.width.replace('vh', ''));
