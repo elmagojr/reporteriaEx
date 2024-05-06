@@ -1,121 +1,23 @@
-Calculate F_REP_EX.EX_1 as Cooperativistas.COOP_CODIGO
-Calculate F_REP_EX.EX_2 as Cooperativistas.COOP_NOMBRE
-Calculate F_REP_EX.EX_3 as Cooperativistas.COOP_FECHA_NACIMIENTO
-Calculate F_REP_EX.EX_4 as F_Variables.STRING1
-Calculate F_REP_EX.EX_5 as F_Variables.STRING2
-Calculate F_REP_EX.EX_6 as F_Variables.STRING3
-Calculate F_REP_EX.EX_7 as Zonas.ZON_DESCRIP
-Calculate F_REP_EX.EX_8 as Departamentos.DEP_NOMBRE
-Calculate F_REP_EX.EX_9 as Municipios.MUN_NOMBRE
-Calculate F_REP_EX.EX_10 as F_Variables.STRING4
-Calculate F_REP_EX.EX_11 as nom_filial
-
-
-
-Calculate F_REP_EX.EX_1 as Cooperativistas.COOP_CODIGO
-Calculate F_REP_EX.EX_2 as Cooperativistas.COOP_NOMBRE
-Calculate F_REP_EX.EX_3 as Cooperativistas.COOP_FECHA_NACIMIENTO
-Calculate F_REP_EX.EX_4 as F_Variables.STRING1
-Calculate F_REP_EX.EX_5 as F_Variables.STRING2
-Calculate F_REP_EX.EX_6 as Departamentos.DEP_NOMBRE
-Calculate F_REP_EX.EX_7 as Municipios.MUN_NOMBRE
-Calculate F_REP_EX.EX_8 as F_Variables.LONG6
-Calculate F_REP_EX.EX_9 as Cooperativistas.Cooperativistas.COOP_DIRECC
-Calculate F_REP_EX.EX_10 as Cooperativistas.COOP_TEL
-
-
-
-
-
-
-Calculate F_REP_EX.EX_1 as Cooperativistas.COOP_CODIGO
-Calculate F_REP_EX.EX_2 as Cooperativistas.COOP_NOMBRE
-Calculate F_REP_EX.EX_3 as Cooperativistas.COOP_ES_EMPRESA
-Calculate F_REP_EX.EX_4 as Cooperativistas.COOP_FECHA_NACIMIENTO
-Calculate F_REP_EX.EX_5 as F_Variables.STRING1
-Calculate F_REP_EX.EX_6 as F_Variables.STRING2
-Calculate F_REP_EX.EX_7 as F_Variables.STRING13
-Calculate F_REP_EX.EX_8 as Zonas.ZON_DESCRIP
-Calculate F_REP_EX.EX_9 as Departamentos.DEP_NOMBRE
-Calculate F_REP_EX.EX_10 as Municipios.MUN_NOMBRE
-Calculate F_REP_EX.EX_12 as F_Variables.STRING3
-Calculate F_REP_EX.EX_13 as F_Variables.STRING4
-Calculate F_REP_EX.EX_14 as F_Variables.LONG7
-Calculate F_REP_EX.EX_15 as F_Variables.LONG8
-Calculate F_Variables.STRING5 as F_Variables.LONG9
-Calculate F_Variables.STRING6 as F_Variables.LONG10
-Calculate F_Variables.STRING7 as F_Variables.LONG11
-
-Calculate F_REP_EX.EX_1 as p_1
-Calculate F_REP_EX.EX_1 as p_1
-Calculate F_REP_EX.EX_2 as p_2
-Calculate F_REP_EX.EX_3 as p_3
-Calculate F_REP_EX.EX_4 as p_4
-Calculate F_REP_EX.EX_5 as p_5
-Calculate F_REP_EX.EX_6 as p_6
-Calculate F_REP_EX.EX_7 as p_7
-Calculate F_REP_EX.EX_8 as p_8
-Calculate F_REP_EX.EX_9 as p_9
-Calculate F_REP_EX.EX_10 as p_10
-Calculate F_REP_EX.EX_12 as p_11
-Calculate F_REP_EX.EX_13 as p_12
-Calculate F_REP_EX.EX_14 as p_13
-Calculate F_REP_EX.EX_15 as p_14
-Calculate F_Variables.STRING5 as p_15
-Calculate F_Variables.STRING6 as p_16
-Calculate F_Variables.STRING7 as p_17
-
-
-Map fields to host {Municipios.MUN_NOMBRE,F_Variables.LONG1,F_Variables.MONTO2,F_Variables.LONG2,F_Variables.MONTO3,F_Variables.LONG3,F_Variables.MONTO4}
-Fetch next row  into { Municipios.MUN_NOMBRE,F_Variables.LONG1,F_Variables.MONTO2,F_Variables.LONG2,F_Variables.MONTO3,F_Variables.LONG3,F_Variables.MONTO4 }
-While flag true
-Set current list #L1
-Add line to list
-Call procedure W_retporteria_varia/31 (2,Municipios.MUN_NOMBRE,F_Variables.LONG1,F_Variables.MONTO2,F_Variables.LONG2,F_Variables.MONTO3,F_Variables.LONG3,F_Variables.MONTO4) {EXEL_IMPRIMIR}
-
-Set current cursor {uno}
-Fetch next row  into { Municipios.MUN_NOMBRE,F_Variables.LONG1,F_Variables.MONTO2,F_Variables.LONG2,F_Variables.MONTO3,F_Variables.LONG3,F_Variables.MONTO4 }
-End While
-
-
-Clear selected files {F_REP_EX}
-Set current list F_REP_EX.L_DATA
-Define list {F_REP_EX.EX_1,F_REP_EX.EX_2,F_REP_EX.EX_3,F_REP_EX.EX_4,F_REP_EX.EX_5,F_REP_EX.EX_6,F_REP_EX.EX_7,F_REP_EX.EX_8,F_REP_EX.EX_9,F_REP_EX.EX_10,F_REP_EX.EX_11,F_REP_EX.EX_12,F_REP_EX.EX_13,F_REP_EX.EX_14,F_REP_EX.EX_15,F_REP_EX.EX_16,F_REP_EX.EX_17,F_REP_EX.EX_18,F_REP_EX.EX_19,F_REP_EX.EX_20}
-;  ---------------------------------------------
-Call procedure W_retporteria_varia/31 (2,'CODIGO COOP','NOMBRE COOP','CUENTA','FECHA OTORGAMIENTO','MONTO','OCUPACION') {EXEL_IMPRIMIR}
-
-'CODIGO COOP','NOMBRE COOP','GÃ‰NERO','EDAD','MONTO','DEPOSITO CTA','RETIROS CTA','NOTA CREDITO','DIVIDENTOS','INTERESES','SALDO','FILIAL'-
-'CODIGO COOP','NOMBRE COOP','IDENTIDAD','TELEFONO','ESTADO CIVIL','GÃ‰NERO','EDAD','DEPARTAMENTO','MUNICIPIO','DIRECCIÃ“N'
-'CODIGO COOP','NOMBRE COOP','IDENTIDAD','DIRECCIÃ“N','TELEFONO','F_Variables.STRING9','F_Oficinas.OFI_NOMBRE','F_Variables.STRING8','SALDO'
-F_Variables.FECHA4,'COD CODIGO','COOP NOMBRE','CUENTA',F_Variables.MONTO2,F_Variables.STRING3
-Calculate F_REP_EX.EX_1 as Cooperativistas.COOP_CODIGO
-Calculate F_REP_EX.EX_2 as Cooperativistas.COOP_NOMBRE
-Calculate F_REP_EX.EX_3 as Cooperativistas.COOP_IDENTIDAD
-Calculate F_REP_EX.EX_4 as Cooperativistas.COOP_TEL
-Calculate F_REP_EX.EX_5 as F_Variables.STRING1
-Calculate F_REP_EX.EX_6 as F_Variables.STRING2
-Calculate F_REP_EX.EX_7 as F_Variables.LONG6
-Calculate F_REP_EX.EX_8 as Departamentos.DEP_NOMBRE
-Calculate F_REP_EX.EX_9 as Municipios.MUN_NOMBRE
-Calculate F_REP_EX.EX_10 as Cooperativistas.COOP_DIRECC
-
-'CODIGO COOP','NOMBRE COOP','CUENTA','SALDO','USUARIO'
-'MUNICIPIO','CANTIDAD','MONTO','CANTIDAD CUENTAS INACTIVAS','MONTOS POR INACTIVAS','TOTAL CANTIDAD CTA ACTIVAS','TOTAL MONTO CTA ACTIVAS'
-F_Variables.FECHA4,'CODIGO COOP','NOMBRE COOP','CUENTA','MONTO','USUARIO'
-
-'CODIGO COOP','NOMBRE COOP','CUENTA','FECHA OTORGAMIENTO','MONTO','OCUPACION'
-'CODIGO COOP','NOMBRE COOP','CANTIDAD','MONTO OTORGADO','SALDO','ESTADO','FECHA INGRESO'
-'CODIGO COOP','NOMBRE COOP','CUENTA','TIPO DE PRESTAMO','FECHA OTORGAMIENTO','MONTO OTORGADO','SALDO','OCUPACION'
-'NOMBRE COOP','CODIGO COOP','SALDO','CUENTA','FECHA VENCE', 'DIAS VENCE'
-
-'MUNICIPIO','CANTIDAD ACTIVOS','MONTO ACTIVOS','CANTIDAD PASIVOS','CANCELADOS'
-'CODIGO COOP','CUENTA','SALDO','NOMBRE COOP','OCUPACION',VAR6
-F_Variables.LONG3,'DESCRIPCION','CANTIDAD','MONTO TOTAL','TIPO DE CUENTA'
-'CODIGO COOP','NOMBRE COOP','CUENTA','MONTO','FECHA','CAJERO'
-'AÃ‘O','MONTO  PRINCIPAL','MONTO DE INTERESES','CANTIDAD DE OPERACIONES'
-'MES','MONTO  PRINCIPAL','MONTO DE INTERESES','CANTIDAD DE OPERACIONES'
-'FECHA PAGO','CUENTA','CAPITAL','INTERESES'
-
-
-
-F_Variables.MONTO2,F_Variables.MONTO8,    F_Variables.MONTO14,F_Variables.MONTO20
+var dataSisc = [
+{"Nombre":"Total de Cuentas","Variación Absoluta":"49.00","Variación Porcentual":"0.034","Nombre2":"Consolidado"},
+{"Nombre":"Montos","Variación Absoluta":"515388.05","Variación Porcentual":"-0.173","Nombre2":"Consolidado"},
+{"Nombre":"Ahorro Promedio","Variación Absoluta":"438.31","Variación Porcentual":"-0.214","Nombre2":"Consolidado"},
+{"Nombre":"Total cuentas segun fondo","Variación Absoluta":"5.00","Variación Porcentual":"-0.075","Nombre2":"Fondos"},
+{"Nombre":"Montos segun fondo","Variación Absoluta":"462357.7300","Variación Porcentual":"-0.1725","Nombre2":"Fondos"},
+{"Nombre":"Ahorro Promedio segun fondo","Variación Absoluta":"3643.20","Variación Porcentual":"-0.091","Nombre2":"Fondos"},
+{"Nombre":"Afiliados","Variación Absoluta":"34.000","Variación Porcentual":"0.0924","Nombre2":"Consolidado"},
+{"Nombre":"Retiros","Variación Absoluta":"1019.000","Variación Porcentual":"0.0000","Nombre2":"Consolidado"},
+];
+var dataGeneral = [{ "titulo1": 'COOPERATIVA  DE AHORRO Y CREDITO 15 DE SEPTIEMBRE LIMITADA',
+"titulo2": 'BARRIO CONCEPCION, 5TA. AVENIDA, ENTRE 8 Y 9 CALLE, N. 809.',
+"titulo3": 'COMAYAGUELA M.D.C, TEL/FAX 2222-4580, TEL. 2238-1893, 2220-4723, 2220-4724.',
+"tituloGrafico": '' ,
+"tipoGrafico":"bar" 
+}];
+var dataFiltros = [
+{ "DES":"Filial", "FILTRO": "FILIAL LAGO DE YOJOA" },
+{ "DES":"Tipo cta Ahorros", "FILTRO": "AHORROS RETIRABLES" },
+{ "DES":"Fondos mayor o igual ", "FILTRO": "8000.0000" },
+{ "DES":"F1", "FILTRO": "01/01/2023" },
+{ "DES":"F2", "FILTRO": "31/01/2022" },
+];
