@@ -73,7 +73,7 @@ dataFiltros.forEach(function (filtro) {
 
 
 
-console.log(DATA_GRAFICA);
+// console.log(DATA_GRAFICA);
 //******************enlista los data set de manera dinamica, segun vengnan del data.js
 var arreglosSeparados = {};
 var arregloDistribuciones = [];
@@ -110,7 +110,7 @@ function SepararArreglos(ARREGLO) {
         Object.keys(OBJETO).forEach(function (nombre) {
 
             var valor = OBJETO[nombre];
-            console.log("nOMBRE + OBJETO: ", valor);
+            // console.log("nOMBRE + OBJETO: ", valor);
             if (isNaN(parseFloat(valor))) {
                 Strings.push(nombre);
             } else {
@@ -127,7 +127,7 @@ function SepararArreglos(ARREGLO) {
 
     });
     var listaDistibuciones = [...new Set(AtributosSeprados.Nombre2)]
-    console.log("CHIT",listaDistibuciones);
+    // console.log("CHIT",listaDistibuciones);
     return {
         data: AtributosSeprados,
         distribuciones: listaDistibuciones,
@@ -174,7 +174,7 @@ var selectDistribcion = document.getElementById("selec_distribucion")
 //console.log("Distro: "+selectDistribcion);
 selectDistribcion.addEventListener("change", function () {
     var seleccionado = selectDistribcion.options[selectDistribcion.selectedIndex].text;
-    console.log("Opción seleccionada:", seleccionado);
+    // console.log("Opción seleccionada:", seleccionado);
     OcultarDistibucion(seleccionado);
 });
 
@@ -331,7 +331,7 @@ function updateChart(selectedType, data) {
         if (!data.EncabezadosString.includes(propiedadArray)) {
 
             dataset_elimina.push(propiedadArray.toUpperCase());
-            console.log(dataset_elimina);
+            // console.log(dataset_elimina);
             myChart.data.datasets.push({
                 label: propiedadArray,
                 data: data.data[propiedadArray],
@@ -378,8 +378,8 @@ function Ampliar() {
     if (alturaActual <= 300) {
         contenedorChart.style.height = (alturaActual * 1.2) + 'vh';
         contenedorChart.style.width = (anchoActual * 1.2) + 'vh';
-        console.log("ancho: " + contenedorChart.style.width);
-        console.log("Alto: " + contenedorChart.style.height);
+        // console.log("ancho: " + contenedorChart.style.width);
+        // console.log("Alto: " + contenedorChart.style.height);
     }
 
 
@@ -391,8 +391,8 @@ function Encoger() {
     if (alturaActual >= 80) {
         contenedorChart.style.height = (alturaActual / 1.2) + 'vh';
         contenedorChart.style.width = (anchoActual / 1.2) + 'vh';
-        console.log("ancho: " + contenedorChart.style.width);
-        console.log("Alto: " + contenedorChart.style.height);
+        // console.log("ancho: " + contenedorChart.style.width);
+        // console.log("Alto: " + contenedorChart.style.height);
     }
 
 }

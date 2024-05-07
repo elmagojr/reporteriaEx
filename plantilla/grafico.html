@@ -3,7 +3,7 @@
 
 <head>
     <title>Gráfico de Barras</title>
-    <meta charset="utf-8">
+    <meta charset="unicode">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1243/1243251.png">
 
@@ -24,7 +24,7 @@
       
     </script>
     <link rel="stylesheet" href="../css/styles.css">
-
+    <link href="../css/fonts/remixicon.css" rel="stylesheet">
 
 
 
@@ -33,21 +33,26 @@
 
 <body>
 
+    <div class="fixed-buttons">
+        <div class="text-center mt-5">
+            <button class="btn btn-info btn-sm" onclick="togglePanel()"><span class="ri-settings-line"></span></button>            
+          </div>
+    </div>
     <div class="container">
        
         <div id="myDropdownPanel" class="dropdown-panel">
           <div class="d-flex flex-column">
             <div class="d-flex justify-content-between">
-                <button class="btn btn-secondary  btn-sm mx-1" onclick="Ampliar()">⬆️</button>
-                <button class="btn btn-secondary  btn-sm" onclick="Encoger()">⬇️</button>
+                <button class="btn btn-secondary  btn-sm mx-1" onclick="Ampliar()"><span class="ri-zoom-in-line"></span></button>
+                <button class="btn btn-secondary  btn-sm" onclick="Encoger()"><span class="ri-zoom-out-line"></span></button>
             </div>
             <div class="d-flex justify-content-between mt-2">
-                <button class="btn btn-secondary  btn-sm mx-1" onclick="subirAncho()">➡️</span></button>
-                <button class="btn btn-info  btn-sm" onclick="togglePanel()">✖️</button>
+                <button class="btn btn-secondary  btn-sm mx-1" onclick="subirAncho()"><span class="ri-expand-width-line"></span></button>
+                <button class="btn btn-info  btn-sm" onclick="togglePanel()"><span class="ri-close-line"></span></button>
             </div>
             <div class="d-flex justify-content-between mt-2">
-                <button class="btn btn-secondary  btn-sm mx-1" onclick="Escalar()">⏫</span></button>
-                <button class="btn btn-secondary  btn-sm" onclick="NoEscalar()">⏬</span></button>
+                <button class="btn btn-secondary  btn-sm mx-1" onclick="Escalar()"><span class="ri-expand-diagonal-line"></span></button>
+                <button class="btn btn-secondary  btn-sm" onclick="NoEscalar()"><span class="ri-collapse-diagonal-line"></span></button>
             </div>
           </div>
         </div>
@@ -63,18 +68,7 @@
         }
       }
       </script>
-    <div class="fixed-buttons">
-        <!-- <button class="btn btn-secondary" onclick="Ampliar()">⬆️</button>
-        <button class="btn btn-secondary" onclick="Encoger()">⬇️</button>
-        <button class="btn btn-secondary" onclick="subirAncho()">➡️</span></button>
-<br>
-        <button class="btn btn-secondary" onclick="Escalar()">⏫</span></button>
-        <button class="btn btn-secondary" onclick="NoEscalar()">⏬</span></button> -->
-        <div class="text-center mt-5">
-            <button class="btn btn-info" onclick="togglePanel()">👁️‍🗨️</button>
-          </div>
-
-    </div>
+  
 
 
 
@@ -123,17 +117,17 @@
     <div class="footer">
         <div class="row py-2">
             <div class="col-auto">
-                <button class="btn btn-outline-secondary" id="btnGenerarPDF">Generar PDF</button>
+                <button class="btn btn-outline-secondary" id="btnGenerarPDF">Generar PDF  <span class="ri-bar-chart-fill"></span> </button>
             </div>
             <div class="col-3">
                 <select id="tipoGrafico" class="form-select btn-outline-secondary" aria-label="Default select example">
-                    <option value="bar">Seleccione un Tipo</option>
-                    <option value="bar">Graf. Barras</option>
-                    <option value="pie">Graf. Pastel</option>
-                    <option value="line">Graf. Lineas</option>
-                    <option value="doughnut">Graf. Dona</option>
-                    <option value="radar">Graf. Radar</option>
-                    <option value="polarArea">Graf. Polar</option>
+                    <option value="bar"> <span class="iconSelect">&#xEA99;</span> Seleccione un Tipo</option>
+                    <option value="bar"><span class="iconSelect">&#xEA99;</span> Graf. Barras</option>
+                    <option value="pie"><span class="iconSelect">&#xEFF9;</span> Graf. Pastel </option>
+                    <option value="line"><span class="iconSelect">&#xEEAA;</span> Graf. Lineas</option>
+                    <option value="doughnut"><span class="iconSelect">&#xEC41;</span> Graf. Dona</option>
+                    <option value="radar"><span class="iconSelect">&#xF3D4;</span> Graf. Radar</option>
+                    <option value="polarArea"> <span class="iconSelect">&#xEFF7;</span> Graf. Polar</option>
                     <!-- <option value="bubble">Graf. Burbuja</option>
                     <option value="derivedBubble">Burbujas a la deriva</option> -->
 
@@ -146,7 +140,7 @@
                 <div id="Seleccion_DeDatas" class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Seleccionar Dataset
+                        <span class="ri-bar-chart-fill"></span>Selec. Grupo de Datos
                     </button>
                     <ul class="dropdown-menu" title='Ocultar' aria-labelledby="dropdownMenuButton" id="dropdownMenu">
 

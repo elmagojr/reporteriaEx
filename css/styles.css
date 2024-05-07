@@ -1,9 +1,11 @@
 
 body {
-
+    /* font-family: 'RemixIcon'; */
     padding: 16px;
 }
-
+select {
+    font-family: 'RemixIcon'; 
+}
 canvas {
     border: 1px dotted red;
 }
