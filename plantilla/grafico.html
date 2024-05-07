@@ -23,94 +23,56 @@
         localStorage.setItem('graficaAbierta', 'true');
       
     </script>
-
-
-    <style>
-        body {
-
-            padding: 16px;
-        }
-
-        canvas {
-            border: 1px dotted red;
-        }
-
-        .encabezado {
-            text-align: center;
-            position: relative;
-            margin: auto;
-            height: auto;
-            width: 80vw;
-        }
-
-        .footer {
-            text-align: left;
-            position: relative;
-            margin: auto;
-            height: auto;
-            width: 80vw;
-        }
-
-        .titulos {
-            text-align: center;
-
-        }
-
-        .contenidoChart {
-            position: relative;
-            margin: auto;
-            height: 80vh;
-            width: 80vw;
-        }
-
-        .chart-container {
-            position: relative;
-            margin: auto;
-            height: 120vh;
-            width: 120vh;
-            transition: width 0.1s;
-            transition: height 0.1s;
-        }
-
-        .fixed-buttons {
-            position: fixed;
-            top: 50%;
-            /* Ajusta la posición verticalmente */
-            right: 0;
-            /* Ajusta la posición horizontalmente */
-            transform: translateY(-50%);
-            /* Centra verticalmente */
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            /* Espacio entre botones */
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 5px;
-        }
+    <link rel="stylesheet" href="../css/styles.css">
 
 
 
-
-
-        /* .verbor {
-            border: 1px dotted rgb(204, 14, 153);
-        } */
-    </style>
 
 
 </head>
 
 <body>
 
+    <div class="container">
+       
+        <div id="myDropdownPanel" class="dropdown-panel">
+          <div class="d-flex flex-column">
+            <div class="d-flex justify-content-between">
+                <button class="btn btn-secondary  btn-sm mx-1" onclick="Ampliar()">⬆️</button>
+                <button class="btn btn-secondary  btn-sm" onclick="Encoger()">⬇️</button>
+            </div>
+            <div class="d-flex justify-content-between mt-2">
+                <button class="btn btn-secondary  btn-sm mx-1" onclick="subirAncho()">➡️</span></button>
+                <button class="btn btn-info  btn-sm" onclick="togglePanel()">✖️</button>
+            </div>
+            <div class="d-flex justify-content-between mt-2">
+                <button class="btn btn-secondary  btn-sm mx-1" onclick="Escalar()">⏫</span></button>
+                <button class="btn btn-secondary  btn-sm" onclick="NoEscalar()">⏬</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+      function togglePanel() {
+        const panel = document.getElementById('myDropdownPanel');
+        if (panel.style.right === '-250px') {
+          panel.style.right = '0';
+        } else {
+          panel.style.right = '-250px';
+        }
+      }
+      </script>
     <div class="fixed-buttons">
-        <button class="btn btn-secondary" onclick="Ampliar()">⬆️</button>
+        <!-- <button class="btn btn-secondary" onclick="Ampliar()">⬆️</button>
         <button class="btn btn-secondary" onclick="Encoger()">⬇️</button>
         <button class="btn btn-secondary" onclick="subirAncho()">➡️</span></button>
 <br>
         <button class="btn btn-secondary" onclick="Escalar()">⏫</span></button>
-        <button class="btn btn-secondary" onclick="NoEscalar()">⏬</span></button>
-        
+        <button class="btn btn-secondary" onclick="NoEscalar()">⏬</span></button> -->
+        <div class="text-center mt-5">
+            <button class="btn btn-info" onclick="togglePanel()">👁️‍🗨️</button>
+          </div>
 
     </div>
 

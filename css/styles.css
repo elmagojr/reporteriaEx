@@ -1,0 +1,82 @@
+
+body {
+
+    padding: 16px;
+}
+
+canvas {
+    border: 1px dotted red;
+}
+
+.encabezado {
+    text-align: center;
+    position: relative;
+    margin: auto;
+    height: auto;
+    width: 80vw;
+}
+
+.footer {
+    text-align: left;
+    position: relative;
+    margin: auto;
+    height: auto;
+    width: 80vw;
+}
+
+.titulos {
+    text-align: center;
+
+}
+
+.contenidoChart {
+    position: relative;
+    margin: auto;
+    height: 80vh;
+    width: 80vw;
+}
+
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 120vh;
+    width: 120vh;
+    transition: width 0.1s;
+    transition: height 0.1s;
+}
+
+.fixed-buttons {
+    position: fixed;
+    top: 50%;
+    /* Ajusta la posición verticalmente */
+    right: 0;
+    /* Ajusta la posición horizontalmente */
+    transform: translateY(-50%);
+    /* Centra verticalmente */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Espacio entre botones */
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+}
+
+.dropdown-panel {
+  position: fixed;
+  top: 50%;
+  right: -250px; /* Oculta el panel en la posición inicial */
+  transform: translateY(-50%);
+  transition: right 0.3s;
+  z-index: 1000;
+  background-color: #f8f9fa;
+  border-left: 1px solid #dee2e6;
+  padding: 10px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+}
+
+
+
+/* .verbor {
+    border: 1px dotted rgb(204, 14, 153);
+} */

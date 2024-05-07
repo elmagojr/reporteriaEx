@@ -413,6 +413,9 @@ function Escalar() {
     myChart.options.scales.y.type = 'logarithmic';
     myChart.update();
 }
+
+
+
 function NoEscalar() {
     myChart.options.scales.y.type = 'linear';
     myChart.update();
