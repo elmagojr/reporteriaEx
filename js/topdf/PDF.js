@@ -9,7 +9,7 @@ var sp_membrete = localStorage.getItem('sp_membrete');
 var sp_logo = localStorage.getItem('sp_logo');
 
 
-function IMPRIME_PDF(BODY_IMAGE, Membrete, logoEx, resolucion) {
+function IMPRIME_PDF(BODY_IMAGE, resolucion) {
 	//console.log(BODY_IMAGE);
 
 	var dd = {

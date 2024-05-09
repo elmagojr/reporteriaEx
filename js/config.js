@@ -44,6 +44,8 @@ function CargaDataGrafica() {
     return SepararArreglos(dataSisc);
 }
 document.addEventListener("DOMContentLoaded", function () {
+    var titulo = document.getElementById("Barra_principal")
+    titulo.textContent="GRAFICO | "+ dataGeneral[0].tituloGrafico
 
     //console.log(GraficaData);
     DistribuirData(DATA_GRAFICA);

@@ -2,10 +2,11 @@
 <html>
 
 <head>
-    <title>Gráfico de Barras</title>
+    <title id="Barra_principal"> </title>
     <meta charset="unicode">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1243/1243251.png">
+    <!-- <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1243/1243251.png"> -->
+    <link rel="icon" type="image/png" href="../css/1243251.png">
 
     <link href="../js/boostrap/bootstrap.min.css" rel="stylesheet">
     <link href="../js/boostrap/docs.css" rel="stylesheet">
@@ -210,12 +211,12 @@
                 with_image = 300;
             }
 
-            console.log("resolucion: " + with_image);
+            
             var elemento = document.getElementById('myChart');
             var imagenlog = document.getElementById('imagenLogo');
             const logotipo = elementoADataURL(imagenlog);
             const datachart = elementoADataURL(elemento);
-            IMPRIME_PDF(datachart, membretes.principal, logotipos.principal, with_image);
+            IMPRIME_PDF(datachart, with_image);
         });
 
         window.addEventListener('beforeunload', function () {
